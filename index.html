@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Breakdown Voltage Testing of Transformer Oil Using a Virtual Sphere Gap</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- TOP NAVIGATION BAR -->
+  <header class="navbar" id="top">
+    <div class="container nav-inner">
+      <a href="#top" class="brand">
+        <span class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" />
+          </svg>
+        </span>
+        <span class="brand-text">
+          <strong>HV Oil Lab</strong>
+          <small>Virtual Sphere Gap Simulator</small>
+        </span>
+      </a>
+
+      <button class="nav-toggle" id="btnNavToggle" aria-label="Toggle Navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav-links" id="navLinks">
+        <a href="#dashboard-hero">Dashboard</a>
+        <a href="#virtual-lab">Virtual Lab</a>
+        <a href="#observations">Observations</a>
+        <a href="#graphs">Graphs</a>
+        <a href="#theory">Theory</a>
+        <a href="#procedure">Procedure</a>
+        <a href="#conclusion">Conclusion</a>
+        <a href="#about">About</a>
+      </nav>
+
+      <div class="nav-actions">
+        <span class="sim-pill" title="Educational Simulation Only">SIMULATION</span>
+        <button id="btnMuteToggle" class="btn-mute" type="button" title="Toggle Sound Effects">
+          <svg id="iconSoundOn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+          </svg>
+          <svg id="iconSoundOff" class="hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+          <span id="muteLabel">Sound On</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- 1. MAIN DASHBOARD HERO -->
+  <section class="hero-section" id="dashboard-hero">
+    <div class="container hero-grid">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span class="pulse-dot"></span>
+          HIGH-VOLTAGE ENGINEERING VIRTUAL LABORATORY
+        </div>
+        <h1>BREAKDOWN VOLTAGE TESTING OF TRANSFORMER OIL USING A VIRTUAL SPHERE GAP</h1>
+        <p class="hero-lead">
+          An interactive 3D engineering simulation demonstrating dielectric breakdown testing of insulating transformer oil
+          across an adjustable sphere-gap electrode assembly—without physical high-voltage hazards.
+        </p>
+
+        <div class="hero-cta-row">
+          <button id="btnHeroStart" class="btn btn-primary btn-lg" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            Start Experiment
+          </button>
+          <a href="#virtual-lab" class="btn btn-outline-light btn-lg" id="btnHeroLab">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+              <path d="M2 17l10 5 10-5"></path>
+              <path d="M2 12l10 5 10-5"></path>
+            </svg>
+            Virtual Laboratory
+          </a>
+        </div>
+
+        <div class="disclaimer-banner">
+          <strong>Educational Simulation Notice:</strong> All breakdown thresholds and test curves displayed in this
+          application are generated using configurable educational simulation parameters for conceptual learning and
+          must not be treated as standardized physical laboratory test measurements.
+        </div>
+      </div>
+
+      <!-- Dashboard Quick Navigation Cards -->
+      <div class="hero-cards">
+        <a href="#virtual-lab" class="dash-card">
+          <div class="dash-card-icon blue">3D</div>
+          <div>
+            <h3>3D Sphere Gap Cell</h3>
+            <p>Rotate, zoom &amp; inspect electrodes, oil clarity &amp; spark discharge.</p>
+          </div>
+        </a>
+        <a href="#theory" class="dash-card">
+          <div class="dash-card-icon cyan">Th</div>
+          <div>
+            <h3>Engineering Theory</h3>
+            <p>Dielectric strength, sphere-gap field &amp; contamination factors.</p>
+          </div>
+        </a>
+        <a href="#procedure" class="dash-card">
+          <div class="dash-card-icon indigo">Pr</div>
+          <div>
+            <h3>Lab Procedure</h3>
+            <p>Guided 9-step virtual testing workflow synchronized with live status.</p>
+          </div>
+        </a>
+        <a href="#observations" class="dash-card">
+          <div class="dash-card-icon emerald">Tb</div>
+          <div>
+            <h3>Observation Table</h3>
+            <p>Automatic trial logging with CSV export &amp; PDF lab report.</p>
+          </div>
+        </a>
+        <a href="#graphs" class="dash-card">
+          <div class="dash-card-icon amber">Gr</div>
+          <div>
+            <h3>Graphical Analysis</h3>
+            <p>Live Chart.js plots comparing gap distance &amp; oil condition.</p>
+          </div>
+        </a>
+        <a href="#conclusion" class="dash-card">
+          <div class="dash-card-icon slate">Rc</div>
+          <div>
+            <h3>Result &amp; Conclusion</h3>
+            <p>Auto-generated interpretation from your recorded simulated trials.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. VIRTUAL LABORATORY WORKSPACE -->
+  <section class="lab-section" id="virtual-lab">
+    <div class="container">
+      <div class="section-header-dark">
+        <div>
+          <span class="section-tag">INTERACTIVE 3D WORKBENCH</span>
+          <h2>Virtual High-Voltage Sphere Gap Laboratory</h2>
+        </div>
+        <div class="lab-header-actions">
+          <button id="btnOpenThresholds" class="btn btn-sm btn-ghost-light" type="button">
+            Configure Educational Thresholds
+          </button>
+          <button id="btnResetAllData" class="btn btn-sm btn-danger-outline" type="button">
+            Reset All Experiment Data
+          </button>
+        </div>
+      </div>
+
+      <!-- Experiment Progress Indicator -->
+      <div class="progress-stepper" aria-label="Experiment Progress">
+        <div class="step-item active" data-stage="1">
+          <span class="step-num">1</span>
+          <span class="step-text">Configure Oil &amp; Gap</span>
+        </div>
+        <div class="step-item" data-stage="2">
+          <span class="step-num">2</span>
+          <span class="step-text">Start HV Supply</span>
+        </div>
+        <div class="step-item" data-stage="3">
+          <span class="step-num">3</span>
+          <span class="step-text">Increase Voltage</span>
+        </div>
+        <div class="step-item" data-stage="4">
+          <span class="step-num">4</span>
+          <span class="step-text">Breakdown Spark</span>
+        </div>
+        <div class="step-item" data-stage="5">
+          <span class="step-num">5</span>
+          <span class="step-text">Analyze &amp; Export</span>
+        </div>
+      </div>
+
+      <!-- Main Lab Grid: 3D Viewport + Instrument Control Panel -->
+      <div class="lab-workspace-grid">
+        <!-- LEFT: 3D Sphere Gap Viewport -->
+        <div class="viewport-card">
+          <div class="viewport-toolbar">
+            <div class="viewport-title">
+              <span class="status-led" id="ledSystem"></span>
+              <span id="labStateBadge" class="state-badge standby">STANDBY - HV OFF</span>
+            </div>
+            <div class="camera-presets">
+              <button type="button" class="cam-btn active" data-cam="overview">Overview</button>
+              <button type="button" class="cam-btn" data-cam="electrodes">Sphere Gap</button>
+              <button type="button" class="cam-btn" data-cam="top">Top View</button>
+              <button type="button" class="cam-btn" data-cam="console">HV Console</button>
+            </div>
+          </div>
+
+          <div class="canvas-wrapper">
+            <div id="threeContainer" class="three-container" aria-label="Interactive 3D Sphere Gap Test Apparatus"></div>
+
+            <!-- Live 3D Overlay HUD -->
+            <div class="hud-overlay-top">
+              <div class="hud-chip">
+                <span>OIL SAMPLE:</span>
+                <strong id="hudOilLabel">Fresh Oil</strong>
+              </div>
+              <div class="hud-chip">
+                <span>GAP:</span>
+                <strong id="hudGapLabel">2.5 mm</strong>
+              </div>
+              <div class="hud-chip">
+                <span>APPLIED:</span>
+                <strong id="hudKvLabel">0.0 kV</strong>
+              </div>
+            </div>
+
+            <!-- Breakdown Alert Overlay Banner -->
+            <div id="breakdownAlert" class="breakdown-alert hidden" role="status" aria-live="polite">
+              <div class="alert-bolt">&#9889;</div>
+              <div>
+                <strong>OIL DIELECTRIC BREAKDOWN OCCURRED</strong>
+                <p id="breakdownAlertDetail">Simulated arc discharge at 0.0 kV across 2.5 mm gap.</p>
+              </div>
+            </div>
+
+            <div class="orbit-hint">
+              Drag to Rotate &bull; Scroll to Zoom &bull; Right-Drag to Pan
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Instrument & Control Panel -->
+        <aside class="instrument-panel">
+          <!-- Analog + Digital Kilovoltmeter -->
+          <div class="meter-card">
+            <div class="meter-header">
+              <span>HIGH-VOLTAGE KILOVOLTMETER</span>
+              <span class="sim-mini-badge">SIMULATED kV</span>
+            </div>
+            <div class="meter-body">
+              <svg class="analog-gauge" viewBox="0 0 220 130" aria-label="Analog Kilovoltmeter Gauge">
+                <defs>
+                  <linearGradient id="gaugeArcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#38bdf8" />
+                    <stop offset="65%" stop-color="#f59e0b" />
+                    <stop offset="100%" stop-color="#ef4444" />
+                  </linearGradient>
+                </defs>
+                <!-- Scale background arc -->
+                <path d="M 25 110 A 85 85 0 0 1 195 110" fill="none" stroke="#1e293b" stroke-width="14" stroke-linecap="round" />
+                <path id="gaugeProgressArc" d="M 25 110 A 85 85 0 0 1 195 110" fill="none" stroke="url(#gaugeArcGrad)" stroke-width="10" stroke-linecap="round" stroke-dasharray="267" stroke-dashoffset="267" />
+                <!-- Scale labels -->
+                <text x="20" y="124" fill="#94a3b8" font-size="9" font-family="monospace">0</text>
+                <text x="48" y="55" fill="#94a3b8" font-size="9" font-family="monospace">25</text>
+                <text x="104" y="34" fill="#94a3b8" font-size="9" font-family="monospace">50</text>
+                <text x="160" y="55" fill="#94a3b8" font-size="9" font-family="monospace">75</text>
+                <text x="184" y="124" fill="#94a3b8" font-size="9" font-family="monospace">100</text>
+                <!-- Peak Breakdown Marker -->
+                <line id="gaugePeakMarker" x1="110" y1="110" x2="110" y2="30" stroke="#ef4444" stroke-width="2" stroke-dasharray="3 3" opacity="0" transform="rotate(-90 110 110)" />
+                <!-- Active Needle -->
+                <line id="gaugeNeedle" x1="110" y1="110" x2="110" y2="33" stroke="#38bdf8" stroke-width="3" stroke-linecap="round" transform="rotate(-90 110 110)" />
+                <circle cx="110" cy="110" r="7" fill="#e2e8f0" stroke="#0284c7" stroke-width="2.5" />
+              </svg>
+
+              <div class="digital-readout-box">
+                <div class="digital-kv" id="digitalKvReadout">0.0 <span>kV</span></div>
+                <div class="stress-bar-wrap">
+                  <div class="stress-bar-fill" id="stressBarFill"></div>
+                </div>
+                <div class="interlock-row">
+                  <span class="ind-pill" id="indHvSupply">HV SUPPLY: OFF</span>
+                  <span class="ind-pill" id="indBreakdown">TRIP: CLEAR</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Experiment Controls -->
+          <div class="controls-card">
+            <h3>Experiment Controls</h3>
+
+            <!-- Oil Condition Selector -->
+            <div class="control-group">
+              <label for="selectOilCondition">
+                Transformer Oil Condition
+                <span class="lock-note hidden" id="lockOilNote">(Locked while HV ON)</span>
+              </label>
+              <select id="selectOilCondition" class="form-select">
+                <option value="fresh">Fresh Oil (Clean &amp; Dry)</option>
+                <option value="used">Used Oil (Aged / Mild Oxidation)</option>
+                <option value="contaminated">Contaminated Oil (Wet / Carbon Impurity)</option>
+              </select>
+              <p class="oil-meta" id="oilConditionMeta">
+                Clear Pale Gold &bull; Moisture: &lt; 10 ppm (Simulated)
+              </p>
+            </div>
+
+            <!-- Adjustable Sphere Gap Distance -->
+            <div class="control-group">
+              <div class="label-row">
+                <label for="sliderGapMm">Sphere Electrode Gap Distance</label>
+                <span class="value-chip" id="gapValueDisplay">2.5 mm</span>
+              </div>
+              <input id="sliderGapMm" type="range" min="1.0" max="5.0" step="0.5" value="2.5" class="range-slider" />
+              <div class="gap-presets">
+                <button type="button" class="gap-chip" data-gap="1.0">1.0 mm</button>
+                <button type="button" class="gap-chip" data-gap="2.0">2.0 mm</button>
+                <button type="button" class="gap-chip active" data-gap="2.5">2.5 mm</button>
+                <button type="button" class="gap-chip" data-gap="3.0">3.0 mm</button>
+                <button type="button" class="gap-chip" data-gap="4.0">4.0 mm</button>
+                <button type="button" class="gap-chip" data-gap="5.0">5.0 mm</button>
+              </div>
+            </div>
+
+            <!-- Voltage Increment Control -->
+            <div class="control-group">
+              <div class="label-row">
+                <label for="selectVoltageStep">Voltage Increment Step (kV)</label>
+                <span class="value-chip" id="stepValueDisplay">+2.0 kV</span>
+              </div>
+              <div class="voltage-step-row">
+                <select id="selectVoltageStep" class="form-select compact">
+                  <option value="0.5">0.5 kV (Fine)</option>
+                  <option value="1.0">1.0 kV</option>
+                  <option value="2.0" selected>2.0 kV (Standard)</option>
+                  <option value="5.0">5.0 kV (Coarse)</option>
+                </select>
+                <button id="btnIncreaseVoltage" class="btn btn-amber" type="button" disabled>
+                  + Increase Voltage
+                </button>
+              </div>
+              <div class="autoramp-row">
+                <label class="switch-label">
+                  <input type="checkbox" id="chkAutoRamp" />
+                  <span>Auto-Ramp Mode (Gradual Continuous Rise @ 2 kV/s)</span>
+                </label>
+              </div>
+            </div>
+
+            <!-- Main Action Buttons -->
+            <div class="action-buttons-grid">
+              <button id="btnStartTest" class="btn btn-success" type="button">
+                Start Test
+              </button>
+              <button id="btnStopTest" class="btn btn-danger" type="button" disabled>
+                Stop Test
+              </button>
+              <button id="btnResetExperiment" class="btn btn-secondary" type="button">
+                Reset Experiment
+              </button>
+            </div>
+          </div>
+
+          <!-- Mathematical Calculations Panel -->
+          <div class="calc-card">
+            <div class="calc-header">
+              <h3>Mathematical Calculations</h3>
+              <span class="sim-mini-badge">EDUCATIONAL MODEL</span>
+            </div>
+            <div class="calc-grid">
+              <div class="calc-item">
+                <span class="calc-label">Applied Voltage (V<sub>app</sub>)</span>
+                <strong class="calc-val" id="calcAppliedKv">0.0 kV</strong>
+              </div>
+              <div class="calc-item">
+                <span class="calc-label">Breakdown Voltage (V<sub>b</sub>)</span>
+                <strong class="calc-val highlight" id="calcBreakdownKv">-- kV</strong>
+              </div>
+              <div class="calc-item">
+                <span class="calc-label">Electrode Gap (d)</span>
+                <strong class="calc-val" id="calcGapMm">2.5 mm</strong>
+              </div>
+              <div class="calc-item">
+                <span class="calc-label">Dielectric Strength (E<sub>b</sub>)</span>
+                <strong class="calc-val highlight-blue" id="calcStrength">-- kV/mm</strong>
+              </div>
+            </div>
+            <div class="formula-box">
+              <code>Dielectric Strength = Breakdown Voltage / Electrode Gap</code>
+              <div class="formula-live" id="formulaLiveEval">
+                Waiting for simulated breakdown event...
+              </div>
+            </div>
+            <p class="calc-disclaimer">
+              <strong>Note:</strong> This is an educational simplified uniform-field calculation (E<sub>b</sub> = V<sub>b</sub> / d). Actual
+              laboratory interpretation depends on the applicable test standard (e.g., IEC 60156 / ASTM D877 / D1816),
+              electrode geometry, sphere diameter, and field uniformity factor.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. OBSERVATION TABLE SECTION -->
+  <section class="content-section" id="observations">
+    <div class="container">
+      <div class="section-header-light">
+        <div>
+          <span class="section-tag-light">EXPERIMENTAL RECORD</span>
+          <h2>Observation Table</h2>
+          <p class="section-sub">
+            Each simulated breakdown test automatically records the trial parameters and calculated dielectric strength below.
+          </p>
+        </div>
+        <div class="table-actions">
+          <span class="count-badge" id="trialCountBadge">0 Trials Recorded</span>
+          <button id="btnExportCsv" class="btn btn-primary btn-sm" type="button" disabled>
+            Export CSV
+          </button>
+          <button id="btnDownloadPdf" class="btn btn-dark btn-sm" type="button">
+            Download PDF Report
+          </button>
+          <button id="btnClearTable" class="btn btn-outline-danger btn-sm" type="button" disabled>
+            Clear Table
+          </button>
+        </div>
+      </div>
+
+      <div class="table-card">
+        <div class="table-responsive">
+          <table class="obs-table" id="observationTable">
+            <thead>
+              <tr>
+                <th>Trial No.</th>
+                <th>Oil Condition</th>
+                <th>Gap Distance (mm)</th>
+                <th>Breakdown Voltage (kV)</th>
+                <th>Dielectric Strength (kV/mm)</th>
+              </tr>
+            </thead>
+            <tbody id="observationTbody">
+              <tr class="empty-row">
+                <td colspan="5">
+                  No simulated observations recorded yet. Select an oil condition &amp; gap distance, click
+                  <strong>Start Test</strong>, and increase voltage until breakdown occurs.
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. GRAPHICAL ANALYSIS SECTION -->
+  <section class="content-section alt-bg" id="graphs">
+    <div class="container">
+      <div class="section-header-light">
+        <div>
+          <span class="section-tag-light">DATA VISUALIZATION</span>
+          <h2>Graphical Analysis (Simulated Observations)</h2>
+          <p class="section-sub">
+            Interactive Chart.js graphs update automatically as you record trials across different oil conditions and gap spacings.
+          </p>
+        </div>
+      </div>
+
+      <div class="charts-grid">
+        <div class="chart-card">
+          <h3>Breakdown Voltage vs Gap Distance</h3>
+          <p class="chart-caption">Simulated BDV (kV) plotted against sphere electrode gap (mm) by oil condition.</p>
+          <div class="chart-box">
+            <canvas id="chartBdvVsGap"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card">
+          <h3>Breakdown Voltage vs Oil Condition</h3>
+          <p class="chart-caption">Mean simulated breakdown voltage (kV) across Fresh, Used &amp; Contaminated oil.</p>
+          <div class="chart-box">
+            <canvas id="chartBdvVsOil"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-card chart-wide">
+          <h3>Dielectric Strength Comparison</h3>
+          <p class="chart-caption">Calculated simplified dielectric strength (kV/mm) for each recorded virtual trial.</p>
+          <div class="chart-box">
+            <canvas id="chartDielectricStrength"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. THEORY SECTION -->
+  <section class="content-section" id="theory">
+    <div class="container">
+      <div class="section-header-light">
+        <div>
+          <span class="section-tag-light">ELECTRICAL ENGINEERING FUNDAMENTALS</span>
+          <h2>Theory &amp; Working Principle</h2>
+          <p class="section-sub">
+            Core high-voltage insulation concepts underlying the transformer oil breakdown voltage test.
+          </p>
+        </div>
+      </div>
+
+      <div class="theory-grid">
+        <article class="theory-card">
+          <h3>1. What is Transformer Oil?</h3>
+          <p>
+            Transformer oil is a highly refined mineral (or synthetic ester/silicone) hydrocarbon insulating liquid
+            engineered for high dielectric strength, low viscosity, high flash point, and thermal stability inside
+            power and distribution transformers.
+          </p>
+        </article>
+
+        <article class="theory-card">
+          <h3>2. Why is Transformer Oil Used?</h3>
+          <p>
+            It serves two primary engineering functions: (a) <strong>electrical insulation</strong> between live high-voltage
+            windings, core, and grounded tank, and (b) <strong>thermal cooling</strong> by circulating heat away from the
+            windings via convection to cooling radiators. It also helps quench arcs and preserve cellulose paper insulation.
+          </p>
+        </article>
+
+        <article class="theory-card">
+          <h3>3. What is Dielectric Strength?</h3>
+          <p>
+            Dielectric strength is the maximum electric field intensity (typically expressed in <strong>kV/mm</strong>)
+            that an insulating material can withstand without losing its insulating properties and undergoing electrical
+            breakdown. Higher dielectric strength indicates cleaner, drier oil.
+          </p>
+        </article>
+
+        <article class="theory-card">
+          <h3>4. What is Breakdown Voltage (BDV)?</h3>
+          <p>
+            Breakdown Voltage is the minimum applied AC voltage (in <strong>kV</strong>) at which an electric spark
+            or conductive discharge bridges the oil gap between two standardized electrodes. It is a key diagnostic
+            indicator of oil health.
+          </p>
+        </article>
+
+        <article class="theory-card">
+          <h3>5. What is a Sphere Gap?</h3>
+          <p>
+            A sphere gap consists of two smooth, polished spherical metallic electrodes separated by a precision
+            adjustable gap inside the test vessel. Spherical surfaces produce a relatively controlled electric field
+            distribution compared to sharp point electrodes, reducing premature corona distortion.
+          </p>
+        </article>
+
+        <article class="theory-card">
+          <h3>6. Working Principle of the BDV Test</h3>
+          <p>
+            An oil sample fills a clean transparent test vessel containing two electrodes spaced at a fixed gap.
+            High voltage from a step-up test transformer is applied across the gap and increased gradually at a steady
+            rate until the electric stress exceeds the oil's dielectric threshold, triggering a visible arc and tripping
+            the supply automatically.
+          </p>
+        </article>
+
+        <article class="theory-card">
+          <h3>7. Factors Affecting Oil Breakdown Voltage</h3>
+          <ul>
+            <li><strong>Moisture content:</strong> Even parts-per-million (ppm) free/dissolved water sharply lowers BDV.</li>
+            <li><strong>Suspended solid impurities:</strong> Cellulose fibers, dust, and carbon particles bridge the gap.</li>
+            <li><strong>Oxidation &amp; sludge:</strong> Aging forms polar acids and conductive byproducts.</li>
+            <li><strong>Temperature &amp; gas bubbles:</strong> Micro-bubbles initiate ionization streamers.</li>
+            <li><strong>Electrode geometry &amp; gap spacing:</strong> Influences local peak electric field stress.</li>
+          </ul>
+        </article>
+
+        <article class="theory-card">
+          <h3>8. Importance of Transformer Oil Testing</h3>
+          <p>
+            Routine BDV testing is essential in substation preventive maintenance. Detecting declining dielectric strength
+            early allows engineers to filter, dehydrate, or replace oil before internal flashovers cause catastrophic
+            transformer failure and grid outages.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. EXPERIMENT PROCEDURE SECTION -->
+  <section class="content-section alt-bg" id="procedure">
+    <div class="container">
+      <div class="section-header-light">
+        <div>
+          <span class="section-tag-light">STEP-BY-STEP WORKFLOW</span>
+          <h2>Virtual Experiment Procedure</h2>
+          <p class="section-sub">
+            Follow these nine steps in the virtual laboratory to evaluate dielectric performance across oil samples and gap distances.
+          </p>
+        </div>
+      </div>
+
+      <ol class="procedure-list" id="procedureList">
+        <li data-proc-step="1">
+          <span class="proc-badge">Step 1</span>
+          <div>
+            <strong>Open the Virtual Laboratory</strong>
+            <p>Navigate to the 3D Virtual Sphere Gap workspace and inspect the oil testing vessel, spherical electrodes, and HV console.</p>
+          </div>
+        </li>
+        <li data-proc-step="2">
+          <span class="proc-badge">Step 2</span>
+          <div>
+            <strong>Select the Transformer Oil Condition</strong>
+            <p>Choose between <em>Fresh Oil</em>, <em>Used Oil</em>, or <em>Contaminated Oil</em> from the selector and observe the 3D oil clarity &amp; impurity change.</p>
+          </div>
+        </li>
+        <li data-proc-step="3">
+          <span class="proc-badge">Step 3</span>
+          <div>
+            <strong>Set the Electrode Gap Distance</strong>
+            <p>Adjust the sphere gap slider (1.0 mm to 5.0 mm) or select a preset gap chip and observe the 3D sphere electrode spacing update.</p>
+          </div>
+        </li>
+        <li data-proc-step="4">
+          <span class="proc-badge">Step 4</span>
+          <div>
+            <strong>Start the Virtual High-Voltage Supply</strong>
+            <p>Click <strong>Start Test</strong> to energize the virtual step-up HV transformer (safety interlock locks oil and gap controls).</p>
+          </div>
+        </li>
+        <li data-proc-step="5">
+          <span class="proc-badge">Step 5</span>
+          <div>
+            <strong>Gradually Increase the Voltage</strong>
+            <p>Choose a kV step size and click <strong>+ Increase Voltage</strong> repeatedly—or enable <strong>Auto-Ramp Mode</strong>—watching the meter rise smoothly.</p>
+          </div>
+        </li>
+        <li data-proc-step="6">
+          <span class="proc-badge">Step 6</span>
+          <div>
+            <strong>Observe the Electric Discharge Animation</strong>
+            <p>When the simulated breakdown threshold is reached, observe the bright 3D spark arc across the sphere gap, rising gas bubbles, and automatic HV trip.</p>
+          </div>
+        </li>
+        <li data-proc-step="7">
+          <span class="proc-badge">Step 7</span>
+          <div>
+            <strong>Record the Breakdown Voltage</strong>
+            <p>Note the latched breakdown voltage (kV) on the meter and confirm it is automatically logged in the Observation Table.</p>
+          </div>
+        </li>
+        <li data-proc-step="8">
+          <span class="proc-badge">Step 8</span>
+          <div>
+            <strong>Calculate Dielectric Strength</strong>
+            <p>Verify the simplified dielectric strength calculation: <code>Dielectric Strength = Breakdown Voltage / Electrode Gap</code> (kV/mm).</p>
+          </div>
+        </li>
+        <li data-proc-step="9">
+          <span class="proc-badge">Step 9</span>
+          <div>
+            <strong>Compare Results for Different Oil Conditions</strong>
+            <p>Click <strong>Reset Experiment</strong>, repeat trials for other oil samples and gap spacings, inspect the Chart.js graphs, and export CSV or PDF reports.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 7. RESULT AND CONCLUSION SECTION -->
+  <section class="content-section" id="conclusion">
+    <div class="container">
+      <div class="section-header-light">
+        <div>
+          <span class="section-tag-light">AUTOMATED EVALUATION</span>
+          <h2>Result and Conclusion</h2>
+        </div>
+      </div>
+
+      <div class="conclusion-grid">
+        <div class="conclusion-card primary">
+          <h3>Generated Simulated Experiment Result</h3>
+          <div id="autoConclusionBody" class="auto-conclusion-body">
+            <p>
+              No simulated breakdown trials have been completed yet. Run at least one virtual test above—ideally comparing
+              <strong>Fresh Oil</strong>, <strong>Used Oil</strong>, and <strong>Contaminated Oil</strong>—to generate a
+              quantitative summary from your observations.
+            </p>
+          </div>
+        </div>
+
+        <div class="conclusion-card">
+          <h3>Effect of Moisture, Impurities &amp; Contamination</h3>
+          <p>
+            Transformer oil relies on high molecular purity to resist ionization. When <strong>moisture</strong> (water droplets)
+            or <strong>solid impurities</strong> (dust, cellulose fibers, carbon particles from arcing) enter the oil:
+          </p>
+          <ul>
+            <li>Polar water molecules and conductive particles experience dielectrophoretic forces under high electric fields.</li>
+            <li>They align along electric field lines between the spherical electrodes, forming microscopic <strong>conductive bridges</strong>.</li>
+            <li>Local electric field distortion intensifies near these bridges, drastically reducing breakdown voltage and dielectric strength.</li>
+            <li>Oxidation sludge and dissolved gases further lower the ionization threshold, leading to premature flashover.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. ABOUT PROJECT SECTION -->
+  <section class="content-section dark-footer-section" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div>
+          <span class="section-tag">ACADEMIC ENGINEERING PROJECT</span>
+          <h2>About This Project</h2>
+          <p>
+            <strong>"Breakdown Voltage Testing of Transformer Oil Using a Virtual Sphere Gap"</strong> is an interactive
+            web-based virtual laboratory developed for Electrical Engineering Diploma and B.Tech academic study. It bridges
+            theoretical High-Voltage Engineering concepts with interactive 3D apparatus visualization, real-time metering,
+            automated data logging, and graphical analysis.
+          </p>
+          <p class="about-note">
+            <strong>Simulation Boundary:</strong> All electrical outputs, breakdown thresholds, and dielectric strength figures
+            are simulated using configurable educational parameters in software. Standard physical oil testing must always follow
+            calibrated high-voltage equipment procedures under IEC 60156 / ASTM D877 / ASTM D1816 safety regulations.
+          </p>
+        </div>
+        <div class="tech-stack-box">
+          <h3>Technology Stack</h3>
+          <div class="tech-pills">
+            <span>HTML5</span>
+            <span>CSS3 (Responsive Grid)</span>
+            <span>JavaScript (ES6)</span>
+            <span>Three.js (3D WebGL)</span>
+            <span>Chart.js (Live Graphs)</span>
+            <span>Web Audio API</span>
+            <span>jsPDF &amp; CSV Export</span>
+          </div>
+          <p class="credits-line">
+            Designed as a modular, offline-capable Electrical Engineering Virtual Laboratory.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONFIGURABLE EDUCATIONAL THRESHOLDS MODAL -->
+  <div id="thresholdModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <div>
+          <h3 id="modalTitle">Configure Educational Simulation Thresholds</h3>
+          <p>Customize the virtual breakdown model parameters (Simulated Educational Values Only).</p>
+        </div>
+        <button id="btnCloseModal" class="modal-close" type="button" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body" id="thresholdFormBody">
+        <!-- Populated dynamically by main.js -->
+      </div>
+      <div class="modal-footer">
+        <button id="btnRestoreDefaults" class="btn btn-secondary btn-sm" type="button">Restore Defaults</button>
+        <button id="btnSaveThresholds" class="btn btn-primary btn-sm" type="button">Apply Parameters</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Local Libraries (works offline & online) -->
+  <script src="lib/three.min.js"></script>
+  <script src="lib/OrbitControls.js"></script>
+  <script src="lib/chart.umd.min.js"></script>
+  <script src="lib/jspdf.umd.min.js"></script>
+
+  <!-- Modular Project Scripts -->
+  <script src="js/simulationModel.js"></script>
+  <script src="js/soundEngine.js"></script>
+  <script src="js/scene3d.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/reportExport.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
